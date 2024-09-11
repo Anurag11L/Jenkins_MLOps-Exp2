@@ -4,48 +4,37 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Clone the GitHub repository
-                git branch: 'main', url: 'https://github.com/Anurag11L/Jenkins_MLOps-Exp2'
+                git url: 'https://github.com/Anurag11L/Jenkins_MLOps-Exp2', branch: 'main'
             }
         }
-
         stage('Install Dependencies') {
             steps {
-                // Install Python dependencies
-                sh 'pip install --upgrade pip'
-                sh 'pip install -r requirements.txt'
+                bat 'pip install -r requirements.txt' // Use `bat` for Windows, assuming Python is installed
             }
         }
-
         stage('Build') {
             steps {
-                // Train the ML model
-                sh 'python train_model.py'
+                echo 'Building the project...'
+                bat 'python build.py' // Replace with your actual build command
             }
         }
-
         stage('Test') {
             steps {
-                // Run tests using pytest
-                sh 'pytest tests/'
+                echo 'Running tests...'
+                bat 'python -m unittest discover tests' // Assuming you're using unittest for testing
             }
         }
-
         stage('Deploy') {
             steps {
-                // Add deployment steps (e.g., copying model.pkl, deploying to a server, etc.)
-                echo 'Deploying the model...'
+                echo 'Deploying the project...'
+                // Add your deployment steps here, e.g., pushing to an S3 bucket or another server
             }
         }
     }
-
     post {
         always {
-            // Clean up workspace
             cleanWs()
-        }
-        success {
-            echo 'Pipeline completed successfully.'
+            echo 'Pipeline completed.'
         }
         failure {
             echo 'Pipeline failed.'
