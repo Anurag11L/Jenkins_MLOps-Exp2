@@ -13,8 +13,8 @@ pipeline {
             steps {
                 // For example, copy the index.html file to a deployment directory
                 script {
-                    def deployDir = '/path/to/deployment/directory'
-                    sh "cp index.html ${deployDir}/index.html"
+                    def deployDir = 'E:\\Academics\\sem 7\\MLOps\\EXP 2'
+                    bat "copy index.html ${deployDir}\\index.html"
                 }
             }
         }
